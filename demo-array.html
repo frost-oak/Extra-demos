@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- 
+    
+   -->
+    <div id="app">
+      <button @click="fn">按钮</button>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+      //
+
+      // 实例vue
+      const vm = new Vue({
+        el: '#app',
+        data: {
+          arr: ['zs', 'ls']
+        },
+        watch: {
+          // arr: {
+          //   deep: true,
+          //   handler(newVal) {
+          //     console.log(newVal)
+          //   }
+          // }
+          arr(newVal) {
+            console.log(newVal)
+          }
+        },
+        methods: {
+          fn() {
+            // 只要调了数组 的方法 => 拦截器(7个方法  push pop unshift shift resort reverse splice  ) =>
+            // this.arr.push('春')
+            // this.arr.pop()
+            // 情况1 : 使用索引改变元素
+            // this.arr[1] = '春'
+            // 解决办法 :
+            // this.$set(target,key,value)
+            // this.$set(this.arr, 1, '春')
+            // 底层 :
+            // this.arr.splice(1, 1, '春')
+            // 情况2 :
+            // this.arr.length = 0
+            // this.arr.splice(0, this.arr.length)
+          }
+        }
+      })
+    </script>
+  </body>
+</html>

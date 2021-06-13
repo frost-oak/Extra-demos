@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- 
+      自定义指令 : v-test  v-xxx   (底层 : 操作DOM)
+    
+   -->
+    <div id="app">
+      <!-- <div v-test v-if="isShow">{{ name }}</div> -->
+      <div v-test:aaa.bbb="1+1">{{ name }}</div>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+      // 自定义指令
+      Vue.directive('test', {
+        // bind  指令绑定到元素
+        bind(el, binding) {
+          // console.warn('bind')
+          // el : 指令绑定的元素
+          // console.log(el)
+          // binding : 对象
+          // console.log(binding)
+          console.log(binding.value) // 指令赋的值
+          console.log(binding.expression) // 赋的表达式
+          console.log(binding.arg) // 参数
+          console.log(binding.modifiers) //修饰符
+        }
+        // inserted  指令绑定的元素插入到父元素
+        // inserted() {
+        //   console.warn('inserted')
+        // },
+        // // update
+        // update() {
+        //   console.warn('update')
+        // },
+        // // 更新 结束
+        // componentUpdated() {
+        //   console.warn('componentUpdated')
+        // },
+        // // 解绑
+        // unbind() {
+        //   console.warn('unbind')
+        // }
+      })
+
+      // 实例vue
+      const vm = new Vue({
+        el: '#app',
+        data: {
+          name: 'zs',
+          isShow: true
+        }
+      })
+    </script>
+  </body>
+</html>

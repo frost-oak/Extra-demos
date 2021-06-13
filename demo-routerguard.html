@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- 
+      导航守卫 有7个钩子
+
+      全局的三个
+        - beforeEach() 导航被确认之前  (常用)
+        - beforeResolve() 异步组件被解析 + 导航被确认之前
+        - afterEach() 导航确认之后
+      路由独享的  
+        - beforeEnter
+      组件级的三个  
+        - beforeRouteEnter() 进入之前   (常用)
+        - beforeRouteUpdate() 哈希值参数变化 复用 /two/1 => /two/2
+        - beforeRouteLeave() 离开  (常用)
+
+    
+   -->
+    <div id="app">
+      <router-view></router-view>
+    </div>
+    <script src="./vue.js"></script>
+    <script src="./node_modules/vue-router/dist/vue-router.js"></script>
+    <script>
+      const one = {
+        template: `
+            <div> 子组件 one :  </div>
+        `
+      }
+      const two = {
+        template: `
+            <div> 子组件 two :  </div>
+        `,
+        // 进入two组件之前
+        beforeRouteEnter(to, from, next) {
+          console.warn('beforeRouteEnter')
+
+          next()
+        },
+        // 参数变化 => 组件复用
+        beforeRouteUpdate(to, from, next) {
+          console.warn('beforeRouteUpdate')
+
+          next()
+        },
+        // 离开
+        beforeRouteLeave(to, from, next) {
+          console.warn('beforeRouteLeave - 离开')
+          next()
+        }
+      }
+
+      // 实例路由
+      const router = new VueRouter({
+        routes: [
+          { path: '/one', name: 'one', component: one },
+          {
+            path: '/two/:id?',
+            name: 'two',
+            component: two
+            // beforeEnter: (to, from, next) => {
+            //   if (from.name == 'one') {
+            //     alert('是从 one来的')
+            //   }
+
+            //   next()
+            // }
+          }
+        ]
+      })
+
+      // // 全局前置守卫
+      // // 确认导航之前
+      // router.beforeEach((to, from, next) => {
+      //   console.warn('beforeEach')
+      //   next()
+      // })
+      // // 全局解析守卫
+      // // 确认导航之前 + 异步组件被解析
+      // router.beforeResolve((to, from, next) => {
+      //   console.warn('beforeResolve')
+      //   next()
+      // })
+      // // 全局 后置守卫
+      // // 导航被确认之后
+      // router.afterEach((to, from) => {
+      //   console.warn('afterEach')
+      // })
+
+      // 实例vue
+      const vm = new Vue({
+        router,
+        el: '#app',
+        data: {}
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- 
+    v-color:bgcolor='red'
+    v-color:fzcolor='blue'
+   -->
+    <div id="app">
+      <!-- <input type="text" v-color:bgcolor="r" v-color:fzcolor="b" /> -->
+
+      <h1 v-color:bgcolor="b" v-color:fzcolor="r">我是h1</h1>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+      //
+      Vue.directive('color', {
+        bind(el, binding) {
+          if (binding.arg == 'bgcolor') {
+            el.style.background = binding.value
+          }
+          if (binding.arg == 'fzcolor') {
+            el.style.color = binding.value
+          }
+        }
+      })
+
+      // 实例vue
+      const vm = new Vue({
+        el: '#app',
+        data: {
+          r: 'red',
+          b: 'blue'
+        }
+      })
+    </script>
+  </body>
+</html>

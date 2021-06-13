@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- 
+     虚拟DOM :  就是一个js对象, 这个 js对象,能描述真实的DOM 
+     我们操作虚拟DOM , 虚拟DOM, 渲染真实的DOM 
+   -->
+
+    <div>Previous</div>
+    <!-- <div>Next</div> -->
+    <script>
+      let div = document.querySelector('div')
+
+      let str = ''
+      let count = 0
+      for (let k in div) {
+        str += k + ' '
+        count++
+      }
+      console.log(str, count)
+
+      // k 里面有很多与渲染无关的东西，这些东西不需要渲染对比
+    </script>
+  </body>
+</html>

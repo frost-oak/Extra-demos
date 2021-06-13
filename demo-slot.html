@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- 
+     v-slot
+   -->
+    <div id="app">
+      <child>
+        <p slot="n1" slot-scope="scope">Slot-1 - {{ scope.type }}</p>
+      </child>
+      <hr />
+      <child>
+        <!-- <template v-slot:n1="scope"> -->
+        <template #n1="scope">
+          <p>Slot-2 - {{ scope.type }}</p>
+        </template>
+      </child>
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+      Vue.component('child', {
+        template: `
+      <div> 子组件 :  
+        <slot name='n1' :type='type'></slot>
+        </div>
+       `,
+        data() {
+          return {
+            type: 'Slot.Data'
+          }
+        }
+      })
+
+      // 实例vue
+      const vm = new Vue({
+        el: '#app',
+        data: {}
+      })
+    </script>
+  </body>
+</html>

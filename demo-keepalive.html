@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- 
+      主要适用于单页面应用spa。 是搭配路由使用的
+      keep-alive 是 Vue 内置的一个组件，可以使被包含的组件保留状态，或避免重新渲染。
+      用法也很简单：
+    
+   -->
+    <div id="app">
+      <router-link to="/one">one</router-link>
+      <router-link to="/two">two</router-link>
+
+      <!-- 1. 全部缓存 -->
+      <!-- <keep-alive>
+           <router-view></router-view>
+           </keep-alive> -->
+      <!-- 2 缓存某一个 -->
+      <!--  <keep-alive include="one">
+            <router-view></router-view>
+            </keep-alive> -->
+
+      <!-- 3. 配合meta -->
+      <!-- 会被缓存 -->
+      <!-- 看似两个出口，但加上条件后其实只有一个出口，要么走上面，要么条件不满足走下面 -->
+      <keep-alive>
+        <router-view v-if="$route.meta.keepAlive"></router-view>
+      </keep-alive> 
+
+      <!-- 不会被缓存 -->
+      <router-view v-if="!$route.meta.keepAlive"></router-view>
+    </div>
+    <script src="./vue.js"></script>
+    <script src="./node_modules/vue-router/dist/vue-router.js"></script>
+    <script>
+      const one = {
+        name: 'one',
+        template: `
+            <div> 子组件 one :  <input /></div>
+        `,
+        created() {
+          // console.warn('created - one')
+          // this.loadNewData()
+        },
+        // 只要看到这个页面 就会触发
+        activated() {
+          // console.warn('activated - one')
+          // this.loadNewData()
+        },
+        // 离开
+        deactivated() {
+          console.warn('deactivated - 离开 - one')
+        },
+        methods: {
+          loadNewData() {
+            console.warn('我就是最新的数据')
+          }
+        }
+      }
+      const two = {
+        name: 'two',
+        template: `
+            <div> 子组件 two :  <input /> </div>
+        `,
+        created() {
+          // console.warn('created - two')
+        }
+      }
+
+      // 实例路由
+      const router = new VueRouter({
+        routes: [
+          {
+            path: '/one',
+            name: 'one',
+            component: one,
+            meta: { keepAlive: true }
+          },
+          {
+            path: '/two',
+            name: 'two',
+            component: two,
+            meta: { keepAlive: false }
+          }
+        ]
+      })
+
+      // 实例vue
+      const vm = new Vue({
+        router,
+        el: '#app',
+        data: {}
+      })
+    </script>
+  </body>
+</html>
